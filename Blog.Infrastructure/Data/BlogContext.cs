@@ -1,9 +1,10 @@
 ﻿using Blog.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Infrastructure.Data
 {
-    public class BlogContext : DbContext
+    public class BlogContext : IdentityDbContext
     {
         public BlogContext(DbContextOptions options): base(options)
         {
@@ -23,7 +24,7 @@ namespace Blog.Infrastructure.Data
             modelBuilder.Entity<Post>().HasMany(c => c.Comments).WithOne(c => c.Post).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Post>().HasMany(c => c.Likes).WithOne(c => c.Post).OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Category>().HasMany(c => c.Posts).WithOne(c => c.Category).OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<Category>().HasMany(c => c.Posts).WithOne(c => c.Category).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Comment>().HasOne(c => c.Post).WithMany(c => c.Comments).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Comment>().HasOne(c => c.User).WithMany(c => c.Comments).OnDelete(DeleteBehavior.Cascade);

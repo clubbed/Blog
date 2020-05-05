@@ -1,6 +1,5 @@
 ﻿using Blog.Domain.Entities;
 using Blog.Infrastructure.Data;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +21,7 @@ namespace Blog.Infrastructure
 
 
             services.AddIdentity<BlogUser, BlogRole>()
+                .AddEntityFrameworkStores<BlogContext>()
                 .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(c =>
