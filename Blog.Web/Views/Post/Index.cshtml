@@ -1,0 +1,64 @@
+﻿@model Blog.Application.ViewModels.Post.PostIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="text-center">
+    <h2>@Model.Title</h2>
+</div>
+
+<hr />
+
+<div class="float-left">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Back</a>
+</div>
+
+<div class="col-md-8 offset-md-2 mb-3">
+    <p>@Model.Content</p>
+    <div>Likes: @Model.NumLikes</div>
+    <div>Comments: @Model.NumComments</div>
+    <div>Author: @Model.Username</div>
+    <div>Created: @Model.Created.ToString("yyyy-MM-dd")</div>
+</div>
+
+
+@if (Model.Comments.Any())
+{
+    <div class="col-md-8 offset-md-2">
+        <h2 class="text-center mb-3">Comments</h2>
+        @foreach (var comment in Model.Comments)
+        {
+            <div>
+                <h5>@comment.Username</h5>
+                <p>@comment.Content</p>
+                <div>Created: @comment.Created.ToString("yyyy-MM-dd")</div>
+            </div>
+            <hr />
+        }
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="mt-3">
+            <a asp-action="NewComment" asp-route-postId="@Model.Id"
+               class="btn btn-primary">New Comment</a>
+        </div>
+    }
+    else
+    {
+        <div class="mt-3">
+            <a asp-action="Register" asp-controller="Action">Register</a> to add a new comment.
+        </div>
+    }
+
+}
+else
+{
+    <div class="col-md-8 offset-md-2 text-center">
+        <p class="lead">
+            There is no comment to this post, why you dont
+            <a asp-action="NewComment" asp-route-postId="@Model.Id">add</a>
+            one?
+        </p>
+    </div>
+}

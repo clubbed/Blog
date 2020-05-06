@@ -8,13 +8,22 @@
 
 <hr />
 
-<div class="col-md-12">
-    @foreach (var post in Model.Posts)
-    {
-        <div class="card">
-            <div class="card-header">@post.Title</div>
+<div class="row">
+    <div class="col-md-3">
+        @await Component.InvokeAsync("Category")
+    </div>
+    <div class="col-md-8">
+        @foreach (var post in Model.Posts)
+        {
+        <div class="card mb-4">
+            <h2 style="padding:10px;">
+                <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id"
+                   style="text-decoration:none;color:black;">
+                    @post.Title
+                </a>
+            </h2>
             <div class="card-body">@post.ShortContent</div>
-            <div class="card-footer">
+            <div style="display:flex; justify-content:space-between;padding:10px 30px;">
                 <div>
                     Likes: @post.NumLikes
                 </div>
@@ -26,7 +35,8 @@
                 </div>
             </div>
         </div>
-    }
+        }
+    </div>
 </div>
 
-@await Component.InvokeAsync("Category")
+

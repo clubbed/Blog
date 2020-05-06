@@ -10,5 +10,6 @@ namespace Blog.Application.Interfaces
     {
         Task<bool> CreateAsync(RegisterViewModel model);
         Task<bool> LoginAsync(LoginViewModel model);
+        Task LogoutAsync();
     }
 }

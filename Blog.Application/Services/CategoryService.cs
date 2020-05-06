@@ -43,6 +43,7 @@ namespace Blog.Application.Services
                     Name = c.Name,
                     Posts = c.Posts.Select(c => new PostViewModel
                     {
+                        Id = c.Id,
                         Title = c.Title,
                         ShortContent = $"{c.Content.Substring(0, 60)}...",
                         Username = $"{c.User.FirstName} {c.User.LastName}",

@@ -10,5 +10,8 @@ namespace Blog.Application.Interfaces
     public interface IPostService
     {
         Task<HomeIndexViewModel> GetHomePagePosts(int page);
+        Task<PostIndexViewModel> GetPostById(int id);
+
+        Task<int> CreatePost(NewPostViewModel model);
     }
 }

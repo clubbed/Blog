@@ -39,8 +39,8 @@ namespace Blog.Infrastructure
                 c.Cookie.HttpOnly = true;
                 c.ExpireTimeSpan = TimeSpan.FromMinutes(10);
 
-                c.LoginPath = "account/login";
-                c.AccessDeniedPath = "account/accessdenied";
+                c.LoginPath = "/account/login";
+                c.AccessDeniedPath = "/account/accessdenied";
                 c.SlidingExpiration = true;
             });
 

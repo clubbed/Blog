@@ -1,0 +1,24 @@
+﻿@model Blog.Application.ViewModels.Comment.CommentViewModel
+
+@{
+    ViewData["Title"] = "NewComment";
+}
+
+<div class="text-center">
+    <h1>New Comment</h1>
+</div>
+<hr />
+
+<form asp-action="NewComment">
+    <input type="hidden" asp-for="PostId" />
+    <textarea asp-for="Content" rows="10" class="form-control">
+
+    </textarea>
+    <div class="text-center mt-3">
+        <button type="submit" class="btn btn-success">Create</button>
+        <a asp-controller="Post" asp-action="Index" 
+           asp-route-id="@Model.PostId" class="btn btn-danger">
+            Cancel
+        </a>
+    </div>
+</form>

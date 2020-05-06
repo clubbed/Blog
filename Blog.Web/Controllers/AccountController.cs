@@ -67,5 +67,12 @@ namespace Blog.Web.Controllers
                 RedirectToAction("Index", "Home")
                 : RedirectToAction(nameof(Register));
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _userService.LogoutAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

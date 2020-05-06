@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Infrastructure.Data
 {
-    public class BlogContext : IdentityDbContext
+    public class BlogContext : IdentityDbContext<BlogUser, BlogRole, string>
     {
         public BlogContext(DbContextOptions options): base(options)
         {
@@ -30,6 +30,7 @@ namespace Blog.Infrastructure.Data
             modelBuilder.Entity<Comment>().HasOne(c => c.User).WithMany(c => c.Comments).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Like>().HasKey(c => new { c.UserId, c.PostId });
+
 
             base.OnModelCreating(modelBuilder);
         }

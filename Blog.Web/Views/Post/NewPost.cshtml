@@ -1,0 +1,29 @@
+﻿@model Blog.Application.ViewModels.Post.NewPostViewModel
+
+@{
+    ViewData["Title"] = "NewPost";
+}
+
+<div class="text-center">
+    <h1>New Post</h1>
+</div>
+
+<hr />
+
+<form asp-action="AddNewPost" method="post">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Content"></label>
+        <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Category</label>
+        @Html.DropDownListFor(c => c.CategoryId, new SelectList(@Model.Categories,"Id","Name"),new { @class = "form-control" })
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+</form>

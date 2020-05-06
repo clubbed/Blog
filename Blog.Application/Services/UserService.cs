@@ -46,5 +46,10 @@ namespace Blog.Application.Services
 
             return true;
         }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
     }
 }
