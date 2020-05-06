@@ -1,12 +1,10 @@
-﻿@model Blog.Application.ViewModels.Home.HomeIndexViewModel
+﻿@model Blog.Application.ViewModels.Category.CategoryIndexViewModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Index";
 }
 
-<div class="text-center">
-    <h1>Welcome to our blog</h1>
-</div>
+<h1 class="text-center">@Model.Name</h1>
 
 <hr />
 
@@ -31,4 +29,4 @@
     }
 </div>
 
-@await Component.InvokeAsync("Category") 
+@await Component.InvokeAsync("Category")

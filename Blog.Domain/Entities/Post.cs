@@ -14,7 +14,7 @@ namespace Blog.Domain.Entities
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
 
         public string UserId { get; set; }
         public BlogUser User { get; set; }

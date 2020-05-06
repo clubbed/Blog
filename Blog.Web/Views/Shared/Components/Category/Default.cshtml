@@ -1,0 +1,12 @@
+﻿@model List<Blog.Application.ViewModels.Category.CategoryViewModel>
+
+<ul>
+    @foreach (var category in Model)
+    {
+        <li>
+            <a asp-action="Index" asp-controller="Category" asp-route-id="@category.Id">
+                @category.Name
+            </a>
+        </li>
+    }
+</ul>
