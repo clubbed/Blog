@@ -13,5 +13,8 @@ namespace Blog.Application.Interfaces
         Task<PostIndexViewModel> GetPostById(int id);
 
         Task<int> CreatePost(NewPostViewModel model);
+
+        Task LikePost(int postId, string userId);
+        Task DisLikePost(int postId, string userId);
     }
 }

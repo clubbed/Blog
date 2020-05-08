@@ -1,6 +1,7 @@
 ﻿using Blog.Application.Interfaces;
 using Blog.Application.ViewModels.Comment;
 using Blog.Application.ViewModels.Home;
+using Blog.Application.ViewModels.Like;
 using Blog.Application.ViewModels.Post;
 using Blog.Domain.Entities;
 using Blog.Infrastructure.Data;
@@ -38,6 +39,20 @@ namespace Blog.Application.Services
             return post.Id;
         }
 
+        public async Task DisLikePost(int postId, string userId)
+        {
+            var removeLike = await _context.Likes
+                .Where(c => c.UserId == userId && c.PostId == postId)
+                .FirstOrDefaultAsync();
+
+            if (removeLike == null)
+                return;
+
+            _context.Likes.Remove(removeLike);
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<HomeIndexViewModel> GetHomePagePosts(int page)
         {
             var posts = await _context.Posts
@@ -45,8 +60,8 @@ namespace Blog.Application.Services
                 .Include(c => c.Comments)
                 .Include(c => c.Likes)
                 .Include(c => c.Category)
-                .Skip(page * 10)
-                .Take(10)
+                .Skip((page - 1) * 5)
+                .Take(5)
                 .Select(c => new PostViewModel
                 {
                     Id = c.Id,
@@ -57,9 +72,13 @@ namespace Blog.Application.Services
                     NumLikes = c.Likes.Count,
                     Category = c.Category.Name,
                     Created = c.CreatedOn
-                }).ToListAsync();
+                })
+                .OrderByDescending(c => c.Created)
+                .ToListAsync();
 
-            return new HomeIndexViewModel { Posts = posts };
+            var totalPages = (int)Math.Ceiling(await _context.Posts.CountAsync() / (double)5);
+
+            return new HomeIndexViewModel { Posts = posts, TotalPages = (int)totalPages };
         }
 
         public async Task<PostIndexViewModel> GetPostById(int id)
@@ -69,12 +88,14 @@ namespace Blog.Application.Services
                .Include(c => c.Comments)
                     .ThenInclude(x => x.User)
                .Include(c => c.Likes)
+                    .ThenInclude(x => x.User)
                .Include(c => c.Category)
                .FirstOrDefault(c => c.Id == id);
 
             var postModel = new PostIndexViewModel
             {
                 Id = post.Id,
+                UserId = post.UserId,
                 Username = post.User.UserName,
                 Category = post.Category.Name,
                 Content = post.Content,
@@ -89,10 +110,29 @@ namespace Blog.Application.Services
                     Content = c.Content,
                     Created = c.CreatedOn,
                     PostId = c.PostId
-                }).ToList()
+                }).ToList(),
+                Likes = post.Likes.Select(c => new LikeViewModel 
+                {
+                    PostId = post.Id,
+                    UserId = post.Likes.Select(c => c.UserId),
+                    Username = post.Likes.Select(c => $"{c.User.FirstName} {c.User.LastName}")
+                }).FirstOrDefault()
             };
 
             return postModel;
+        }
+
+        public async Task LikePost(int postId, string userId)
+        {
+            var like = new Like
+            {
+                PostId = postId,
+                UserId = userId
+            };
+
+            await _context.AddAsync(like);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

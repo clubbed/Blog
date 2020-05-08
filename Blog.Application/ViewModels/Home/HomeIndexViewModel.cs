@@ -7,6 +7,11 @@ namespace Blog.Application.ViewModels.Home
 {
     public class HomeIndexViewModel
     {
+        public int CurrentPage { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasNextPage { get { return TotalPages > CurrentPage; } }
+        public bool HasPreviousPage { get { return CurrentPage > 1; } }
+
         public List<PostViewModel> Posts { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace Blog.Web.Controllers
 
         public async Task<IActionResult> Index(int? page)
         {
-            var posts = await _postService.GetHomePagePosts(page ?? 0);
+            var posts = await _postService.GetHomePagePosts(page ?? 1);
 
             return View(posts);
         }

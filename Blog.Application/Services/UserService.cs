@@ -31,6 +31,7 @@ namespace Blog.Application.Services
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
+            await _signInManager.SignInAsync(user, true);
 
             return result.Succeeded;
         }
@@ -42,9 +43,11 @@ namespace Blog.Application.Services
             if (user == null)
                 return false;
 
-            await _signInManager.SignInAsync(user, true);
-
-            return true;
+            //await _signInManager.SignInAsync(user, true);
+            var result = await _signInManager
+                .PasswordSignInAsync(user, model.Password, false, false);
+            
+            return result.Succeeded;
         }
 
         public async Task LogoutAsync()

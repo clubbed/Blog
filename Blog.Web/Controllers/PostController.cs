@@ -25,9 +25,12 @@ namespace Blog.Web.Controllers
             _categoryService = categoryService;
         }
 
+        [Route("/post/{id}")]
         public async Task<IActionResult> Index(int id)
         {
             var post = await _postService.GetPostById(id);
+            var userId = await _currentUserService.GetUserId();
+            ViewData["currentUser"] = userId;
 
             return View(post);
         }
@@ -74,6 +77,24 @@ namespace Blog.Web.Controllers
             var result = await _commentService.AddComment(model);
 
             return RedirectToAction(nameof(Index), new { id = model.PostId });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Like(int postId, string userId)
+        {
+            await _postService.LikePost(postId, userId);
+
+            return RedirectToAction(nameof(Index), new { id = postId });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> DisLike(int postId, string userId)
+        {
+            await _postService.DisLikePost(postId, userId);
+
+            return RedirectToAction(nameof(Index), new { id = postId });
         }
     }
 }

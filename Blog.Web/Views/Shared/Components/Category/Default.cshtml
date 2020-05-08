@@ -1,10 +1,10 @@
 ﻿@model List<Blog.Application.ViewModels.Category.CategoryViewModel>
 
-<ul class="list-group">
+<ul class="list-group mb-4" style="box-shadow: 0px 10px 10px -1px rgba(0,0,0,0.52);">
     @foreach (var category in Model)
     {
         <li class="list-group-item">
-            <a asp-action="Index" asp-controller="Category" asp-route-id="@category.Id">
+            <a asp-action="Index" asp-controller="Category" asp-route-id="@category.Id" style="text-decoration:none; color:black;">
                 @category.Name
             </a>
         </li>

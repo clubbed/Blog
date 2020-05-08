@@ -32,30 +32,37 @@ namespace Blog.Application.Services
             return categories;
         }
 
-        public async Task<CategoryIndexViewModel> GetCategory(int categoryId)
+        public async Task<CategoryIndexViewModel> GetCategory(int categoryId, int page)
         {
-            var categoryPosts = _context.Categories
-                .Where(c => c.Id == categoryId)
-                .Include(c => c.Posts)
+            var totalPages = (int)Math.Ceiling(_context.Posts.Where(c => c.CategoryId == categoryId).Count() / (double)5);
+
+            var posts = _context.Posts
+                .Where(c => c.CategoryId == categoryId)
+                .Skip((page - 1) * 5)
+                .Take(5)
+                .Select(c => new PostViewModel
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    ShortContent = $"{c.Content.Substring(0, 60)}...",
+                    Username = $"{c.User.FirstName} {c.User.LastName}",
+                    NumComments = c.Comments.Count,
+                    NumLikes = c.Likes.Count,
+                    Category = c.Category.Name,
+                    Created = c.CreatedOn
+                }).ToList();
+
+            var category = _context.Categories.Where(c => c.Id == categoryId)
                 .Select(c => new CategoryIndexViewModel
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    Posts = c.Posts.Select(c => new PostViewModel
-                    {
-                        Id = c.Id,
-                        Title = c.Title,
-                        ShortContent = $"{c.Content.Substring(0, 60)}...",
-                        Username = $"{c.User.FirstName} {c.User.LastName}",
-                        NumComments = c.Comments.Count,
-                        NumLikes = c.Likes.Count,
-                        Category = c.Category.Name,
-                        Created = c.CreatedOn
-                    }).ToList()
+                    Posts = posts,
+                    TotalPages = totalPages
+                })
+                .FirstOrDefault();
 
-                }).FirstOrDefault();
-
-            return categoryPosts;
+            return category;
         }
     }
 }

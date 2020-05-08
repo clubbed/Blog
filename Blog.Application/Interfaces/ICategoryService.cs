@@ -10,6 +10,6 @@ namespace Blog.Application.Interfaces
     public interface ICategoryService
     {
         Task<List<CategoryViewModel>> GetCategories();
-        Task<CategoryIndexViewModel> GetCategory(int categoryId);
+        Task<CategoryIndexViewModel> GetCategory(int categoryId, int page);
     }
 }

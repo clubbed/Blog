@@ -9,6 +9,12 @@ namespace Blog.Application.ViewModels.Category
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        public int CurrentPage { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasNextPage { get { return TotalPages > CurrentPage; } }
+        public bool HasPreviousPage { get { return CurrentPage > 1; } }
+
         public List<PostViewModel> Posts { get; set; }
     }
 }

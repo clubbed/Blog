@@ -16,9 +16,11 @@ namespace Blog.Web.Controllers
             _categoryService = categoryService;
         }
 
-        public async Task<IActionResult> Index(int id)
+        [Route("/category/{id}")]
+        public async Task<IActionResult> Index(int id, int? page)
         {
-            var categoryViewModel = await _categoryService.GetCategory(id);
+            var categoryViewModel = await _categoryService
+                .GetCategory(id, page ?? 1);
 
             return View(categoryViewModel);
         }
