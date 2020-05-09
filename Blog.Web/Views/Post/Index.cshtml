@@ -35,7 +35,7 @@
                 }
                 else
                 {
-                    <i class="fa fa-thumbs-up"></i>
+                    <i class="fa fa-thumbs-up" style="cursor:pointer" id="like"></i>
                 }
                 <span id="numLikes" style="cursor:pointer">@Model.NumLikes</span>
             </div>
@@ -133,7 +133,7 @@ else
                     url: likeUrl,
                     method: 'POST',
                     success: function (response) {
-                        window.location.href = '/post/index/' + '@Model.Id';
+                        window.location.href = '/post/' + '@Model.Id';
                     }
                 });
             });
@@ -145,7 +145,7 @@ else
                     url: dislikeUrl,
                     method: 'POST',
                     success: function (response) {
-                        window.location.href = '/post/index/' + '@Model.Id';
+                        window.location.href = '/post/' + '@Model.Id';
                     }
                 });
             });

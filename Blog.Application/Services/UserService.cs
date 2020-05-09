@@ -31,7 +31,11 @@ namespace Blog.Application.Services
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
-            await _signInManager.SignInAsync(user, true);
+            
+            if(result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, true);
+            }
 
             return result.Succeeded;
         }

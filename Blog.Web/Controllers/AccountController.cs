@@ -63,9 +63,16 @@ namespace Blog.Web.Controllers
 
             var result = await _userService.CreateAsync(model);
 
-            return result ?
-                RedirectToAction("Index", "Home")
-                : RedirectToAction(nameof(Register));
+            if (result)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+
+                ModelState.AddModelError("", "Something went wrong while trying to register new account!");
+                return View();
+            }
         }
 
         public async Task<IActionResult> Logout()

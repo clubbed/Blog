@@ -30,6 +30,11 @@ namespace Blog.Infrastructure.Migrations
                 nullable: true,
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2");
+
+            migrationBuilder.Sql($"INSERT INTO Categories (Name, CreatedOn) VALUES ('Technology','{DateTime.Now}')");
+            migrationBuilder.Sql($"INSERT INTO Categories (Name, CreatedOn) VALUES ('Science','{DateTime.Now}')");
+            migrationBuilder.Sql($"INSERT INTO Categories (Name, CreatedOn) VALUES ('Food','{DateTime.Now}')");
+            migrationBuilder.Sql($"INSERT INTO Categories (Name, CreatedOn) VALUES ('Sports','{DateTime.Now}')");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
